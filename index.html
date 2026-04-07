@@ -387,6 +387,23 @@
       transition: all 0.2s;
     }
     .btn-manage:hover { background: rgba(255,255,255,0.25); }
+    .btn-suggest {
+      display: block;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      padding: 11px;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.25);
+      border-radius: 14px;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-suggest:hover { background: rgba(255,255,255,0.15); color: white; }
 
     /* ── Modal ── */
     .modal-overlay {
@@ -671,6 +688,9 @@
 
 <!-- 管理店家按鈕 -->
 <button class="btn-manage" onclick="openModal()">✏️ 管理店家（新增 / 刪除）</button>
+
+<!-- 建議回報按鈕 -->
+<a class="btn-suggest" href="https://github.com/happylifecpy/eatwhat_ncu/issues/new?title=建議：&body=**我的建議：**%0A%0A（請描述你想新增、修改或刪除的店家資訊）" target="_blank" rel="noopener">💬 有店家要建議？點我回報給管理員</a>
 
 <!-- 管理 Modal -->
 <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
