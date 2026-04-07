@@ -1574,10 +1574,12 @@ function getCandidates() {
 // ── Modal ──
 function openModal() {
   document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
   switchTab('add');
 }
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
 }
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('modal-overlay')) closeModal();
