@@ -1631,7 +1631,7 @@ function submitAdd() {
 }
 
 // 自訂確認對話框
-let confirmResolve = null;
+var confirmResolve = null;
 function showConfirm(msg) {
   return new Promise(resolve => {
     document.getElementById('confirm-msg').textContent = msg;
