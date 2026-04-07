@@ -546,6 +546,57 @@
     .manage-search {
       margin-bottom: 12px;
     }
+
+    /* ── 自訂確認對話框 ── */
+    .confirm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .confirm-overlay.open { display: flex; }
+    .confirm-box {
+      background: white;
+      border-radius: 16px;
+      padding: 24px 22px 20px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .confirm-msg {
+      font-size: 0.95rem;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .confirm-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .confirm-actions button {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .confirm-actions button:hover { opacity: 0.85; }
+    .btn-confirm-cancel {
+      background: #f0f0f0;
+      color: #666;
+    }
+    .btn-confirm-ok {
+      background: #e57373;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -1579,9 +1630,23 @@ function submitAdd() {
   alert(`「${name}」已新增！`);
 }
 
+// 自訂確認對話框
+let confirmResolve = null;
+function showConfirm(msg) {
+  return new Promise(resolve => {
+    document.getElementById('confirm-msg').textContent = msg;
+    document.getElementById('confirm-overlay').classList.add('open');
+    confirmResolve = (result) => {
+      document.getElementById('confirm-overlay').classList.remove('open');
+      resolve(result);
+    };
+  });
+}
+
 // 刪除店家
-function deleteRestaurant(name) {
-  if (!confirm(`確定要刪除「${name}」嗎？`)) return;
+async function deleteRestaurant(name) {
+  const ok = await showConfirm(`確定要刪除「${name}」嗎？`);
+  if (!ok) return;
   const { added, deleted } = loadUserData();
   // 如果是使用者新增的，直接從 added 移除；否則加進 deleted 黑名單
   const newAdded = added.filter(r => r.name !== name);
@@ -1614,6 +1679,17 @@ function renderManageList() {
     ).join('');
 }
 </script>
+
+<!-- 自訂確認對話框 -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-actions">
+      <button class="btn-confirm-cancel" onclick="confirmResolve(false)">取消</button>
+      <button class="btn-confirm-ok" onclick="confirmResolve(true)">確定刪除</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
